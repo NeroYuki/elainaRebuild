@@ -1,0 +1,10 @@
+{
+    "prefix": "%",
+    "game_integration" : {
+        "azur_lane" : false,
+        "osu" : false,
+        "osu_droid" : true,
+        "malody" : false
+    },
+    "private_mode": true
+}
