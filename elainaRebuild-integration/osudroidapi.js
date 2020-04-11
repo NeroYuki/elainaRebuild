@@ -4,7 +4,33 @@ const request = require('request')
 require('dotenv').config({ path: 'elainaRebuild-config/.env' })
 
 const API_ENDPOINT = 'http://ops.dgsrz.com/api'
-const PROFILE_ENDPOINT = 'http://ops.dgsrz.com'
+const WEBSITE_ENDPOINT = 'http://ops.dgsrz.com'
+
+var modbits = {
+    nomod: 0,
+    nf: 1<<0,
+    ez: 1<<1,
+    td: 1<<2,
+    hd: 1<<3,
+    hr: 1<<4,
+    dt: 1<<6,
+    ht: 1<<8,
+    nc: 1<<9,
+    fl: 1<<10,
+    so: 1<<12,
+};
+
+function modchar2bit(mod) {
+    var res = 0;
+    if (mod.includes("e")) res += modbits.ez;
+    if (mod.includes("h")) res += modbits.hd;
+	if (mod.includes("r")) res += modbits.hr;
+	if (mod.includes("d")) res += modbits.dt;
+	if (mod.includes("c")) res += modbits.nc;
+	if (mod.includes("n")) res += modbits.nf;
+	if (mod.includes("t")) res += modbits.ht;
+	return res;
+}
 
 async function droidApiCall(param) {
     return new Promise((resolve, reject) => {
@@ -15,7 +41,7 @@ async function droidApiCall(param) {
                 reject()
             }
             if (res.statusCode != 200) {
-                log.errConsole("Non 200 status code")
+                log.errConsole("Non-200 status code")
                 reject()
             }
             try {
@@ -27,12 +53,12 @@ async function droidApiCall(param) {
                 reject()
             }
         })
-    })
+    }).catch()
 }
 
 async function droidProfileCall(param) {
     return new Promise((resolve, reject) => {
-        let url = PROFILE_ENDPOINT + param.toString();
+        let url = WEBSITE_ENDPOINT + param.toString();
         let profileObject = {
             avatarLink: "",
             location: ""
@@ -88,13 +114,13 @@ module.exports.getUserInfo = (option) => {
         else {
             let param = new apiParamBuilder("getuserinfo.php")
             param.addParam("apiKey", process.env.OSUDROID_API_KEY)
-            if (option.uid !== undefined) param.addParam("uid", option.uid)
-            else if (option.username !== undefined) param.addParam("username", option.username)
+            if (option.uid !== undefined && !isNaN(parseInt(option.uid))) param.addParam("uid", parseInt(option.uid));
+            if (option.username !== undefined) param.addParam("username", option.username)
             let result = await droidApiCall(param)
             //return 2 element: player info (seperated by spaces) and json string include rank and recent play
             let playerInfo = result[0].split(' ')
             if (playerInfo[0] !== "SUCCESS") {
-                log.toConsole("User is not found in the database")
+                log.errConsole("User is not found in the database")
                 reject()
             }
             let scoreInfo = JSON.parse(result[1])
@@ -112,14 +138,77 @@ module.exports.getUserInfo = (option) => {
             }
 
             //still have to request profile page to get location and avatar link
-            let profileParam = new apiParamBuilder("profile.php")
-            profileParam.addParam("uid", resultObject.uid)
-            let profileObject = await droidProfileCall(profileParam)
-            resultObject.avatarLink = profileObject.avatarLink
-            resultObject.location = profileObject.location
+            //option.fullInfo = false to disable scrapper
+
+            let fullInfo = true;
+            if (option.fullInfo !== undefined) fullInfo = Boolean(option.fullInfo)
+            if (fullInfo) {
+                let profileParam = new apiParamBuilder("profile.php")
+                profileParam.addParam("uid", resultObject.uid)
+                let profileObject = await droidProfileCall(profileParam)
+                resultObject.avatarLink = profileObject.avatarLink
+                resultObject.location = profileObject.location
+            }
 
             //return userInfo object
             resolve(resultObject)
         }
-    })
+    }).catch()
+}
+
+module.exports.getScoreInfo = (option) => {
+    return new Promise(async (resolve, reject) => {
+        if (option === undefined) {
+            log.toConsole("No option is provided")
+            reject()
+        }
+        if (option.uid === undefined && option.hash === undefined) {
+            log.errConsole("Insufficient option")
+            reject()
+        }
+        if (process.env.OSUDROID_API_KEY === undefined) {
+            log.errConsole("No api key is provided")
+            reject()
+        }
+
+        const available_order = ["sid", "date", "score"]
+        //TODO: maybe fallback to v1 if possible?
+        let param = new apiParamBuilder("scoresearchv2.php")
+        param.addParam("apiKey", process.env.OSUDROID_API_KEY)
+        if (option.uid !== undefined && !isNaN(parseInt(option.uid))) param.addParam("uid", parseInt(option.uid));
+        if (option.hash !== undefined) param.addParam("hash", option.hash);
+        if (option.order !== undefined && available_order.indexOf(option.order) != -1) param.addParam("order", option.order)
+        if (option.page !== undefined && !isNaN(parseInt(option.page))) param.addParam("page", parseInt(option.page))
+
+        //log.toConsole(param.toString())
+
+        let result = await droidApiCall(param) 
+        result.shift()
+        if (result.length == 0) {
+            log.errConsole("No score is found with this parameter")
+            reject()
+        }
+
+        let scoreInfoResult = []
+        result.forEach((line) => {
+            let components = line.split(' ')
+            let scoreInfoEntry = {
+                sid: parseInt(components[0]),
+                uid: parseInt(components[1]),
+                username: components[2],
+                score: parseInt(components[3]),
+                max_combo: parseInt(components[4]),
+                grade: components[5],
+                mod: modchar2bit(components[6]),
+                acc: parseInt(components[7]) / 1000,
+                miss: parseInt(components[8]),
+                time: new Date(parseInt(components[9]) * 1000),
+                filename: components[10],
+                hash: components[11]
+            }
+            scoreInfoResult.push(scoreInfoEntry)
+        })
+
+        resolve(scoreInfoResult)
+    }).catch()
 }
