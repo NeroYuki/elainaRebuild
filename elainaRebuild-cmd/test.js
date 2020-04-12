@@ -3,13 +3,15 @@ const osuapi = require('../elainaRebuild-integration/osuapi.js')
 const osudroidapi = require('../elainaRebuild-integration/osudroidapi.js')
 const malodyapi = require('../elainaRebuild-integration/malodyapi.js')
 const azurlaneapi = require('../elainaRebuild-integration/azurlaneapi.js')
+const arcaeaapi = require('../elainaRebuild-integration/arcaeaapi.js')
 
 module.exports.run = (client, message, args) => {
     // command only for integration testing
     // osuIntegrationTest(client, message, args)
     // malodyIntegrationTest(client, message, args)
     // osudroidIntegrationTest(client, message, args)
-    azurlaneIntegrationTest(client, message, args)
+    // azurlaneIntegrationTest(client, message, args)
+    arcaeaIntegrationTest(client, message, args)
 }
 
 async function osuIntegrationTest(client, message, args) {
@@ -60,6 +62,37 @@ async function azurlaneIntegrationTest(client, message, args) {
     log.toConsole(JSON.stringify(serverResult, "", "  "))
 
     message.channel.send("test complete")
+}
+
+async function arcaeaIntegrationTest(client, message, args) {
+    let option = {
+        uid: undefined,
+        username: undefined,
+    }
+    if (args[0].length == 9 && /\d{9}/.test(args[0])) option.uid = args[0]
+    else {
+        //log.errConsole("Invalid uid")
+        option.username = args[0]
+        let lookupResult = await arcaeaapi.lookupUser(option)
+        if (lookupResult.length == 0) log.errConsole("Can't find said player, perhaps try to use your user id")
+        else {
+            log.toConsole(option.username + " found")
+            option.uid = lookupResult[0].code
+        }
+    }
+
+    // if (args[1] !== undefined) option.score_pull = parseInt(args[1])
+    // if (args[2] !== undefined && args[3] !== undefined) {
+    //     option.min_ptt = parseInt(args[2])
+    //     option.max_ptt = parseInt(args[3])
+    // }
+
+    let infoResult = await arcaeaapi.getUserInfo(option)
+    log.toConsole(JSON.stringify(infoResult, "", "  "))
+    // let scoreResult = await arcaeaapi.getScoreInfo(option)
+    // log.toConsole(JSON.stringify(scoreResult, "", "  "))
+
+    message.channel.send('test complete')
 }
 
 module.exports.name = 'test'

@@ -11,7 +11,7 @@ function connect() {
     // Connection opened
     socket.on('open', function (event) {
         data = []
-        socket.send('498367497 4 8')
+        socket.send('498367497')
     });
 
     // Listen for messages
