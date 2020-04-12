@@ -1,0 +1,495 @@
+{
+	"cmd": "songtitle",
+	"data": {
+		"sayonarahatsukoi": {
+			"en": "Sayonara Hatsukoi"
+		},
+		"lostcivilization": {
+			"en": "Lost Civilization"
+		},
+		"goodtek": {
+			"en": "GOODTEK (Arcaea Edit)"
+		},
+		"viyella": {
+			"en": "cry of viyella"
+		},
+		"rise": {
+			"en": "Rise"
+		},
+		"lucifer": {
+			"en": "Lucifer"
+		},
+		"fairytale": {
+			"en": "Fairytale"
+		},
+		"hearditsaid": {
+			"en": "I've heard it said"
+		},
+		"babaroque": {
+			"en": "Babaroque"
+		},
+		"memoryfactory": {
+			"en": "memoryfactory.lzh"
+		},
+		"snowwhite": {
+			"en": "Snow White"
+		},
+		"relentless": {
+			"en": "Relentless"
+		},
+		"shadesoflight": {
+			"en": "Shades of Light in a Transcendent Realm"
+		},
+		"vexaria": {
+			"en": "Vexaria"
+		},
+		"essenceoftwilight": {
+			"en": "Essence of Twilight"
+		},
+		"qualia": {
+			"en": "qualia -ideaesthesia-"
+		},
+		"pragmatism": {
+			"en": "PRAGMATISM"
+		},
+		"sheriruth": {
+			"en": "Sheriruth"
+		},
+		"lumia": {
+			"en": "Lumia"
+		},
+		"dement": {
+			"en": "Dement ~after legend~"
+		},
+		"dandelion": {
+			"en": "Dandelion"
+		},
+		"anokumene": {
+			"en": "Anökumene",
+			"ko": "Anokumene",
+			"zh-Hant": "Anokumene",
+			"zh-Hans": "Anokumene"
+		},
+		"infinityheaven": {
+			"en": "Infinity Heaven"
+		},
+		"partyvinyl": {
+			"en": "Party Vinyl"
+		},
+		"flashback": {
+			"en": "Flashback"
+		},
+		"flyburg": {
+			"en": "Flyburg and Endroll",
+			"ja": "フライブルクとエンドロウル"
+		},
+		"nirvluce": {
+			"en": "Nirv lucE"
+		},
+		"paradise": {
+			"en": "Paradise"
+		},
+		"brandnewworld": {
+			"en": "Brand new world"
+		},
+		"dataerror": {
+			"en": "DataErr0r"
+		},
+		"crosssoul": {
+			"en": "CROSS†SOUL"
+		},
+		"yourvoiceso": {
+			"en": "Your voice so... feat. Such"
+		},
+		"chronostasis": {
+			"en": "Chronostasis"
+		},
+		"kanagawa": {
+			"en": "Kanagawa Cyber Culvert",
+			"ja": "神奈川電脳暗渠"
+		},
+		"moonlightofsandcastle": {
+			"en": "Moonlight of Sand Castle"
+		},
+		"reconstruction": {
+			"en": "REconstruction"
+		},
+		"evoltex": {
+			"en": "Evoltex (poppi'n mix)"
+		},
+		"oracle": {
+			"en": "Oracle"
+		},
+		"aterlbus": {
+			"en": "αterlβus",
+			"zh-Hant": "aterlbus",
+			"zh-Hans": "aterlbus"
+		},
+		"clotho": {
+			"en": "Clotho and the stargazer",
+			"ja": "クロートーと星の観測者"
+		},
+		"impurebird": {
+			"en": "Impure Bird",
+			"ja": "不浄な白い鳥"
+		},
+		"ignotus": {
+			"en": "Ignotus"
+		},
+		"lethaeus": {
+			"en": "Lethaeus"
+		},
+		"romancewars": {
+			"en": "Romance Wars",
+			"ja": "vsキミ戦争"
+		},
+		"blossoms": {
+			"en": "Blossoms"
+		},
+		"moonheart": {
+			"en": "Moonheart"
+		},
+		"genesis": {
+			"en": "Genesis"
+		},
+		"harutopia": {
+			"ja": "ハルトピア ~Utopia of Spring~",
+			"en": "Harutopia ~Utopia of Spring~"
+		},
+		"auxesia": {
+			"en": "Auxesia"
+		},
+		"rabbitintheblackroom": {
+			"en": "Rabbit In The Black Room"
+		},
+		"modelista": {
+			"en": "Modelista"
+		},
+		"soundwitch": {
+			"en": "SOUNDWiTCH"
+		},
+		"trappola": {
+			"en": "trappola bewitching",
+			"ja": "妖艶魔女 -trappola bewitching-"
+		},
+		"iconoclast": {
+			"en": "Iconoclast"
+		},
+		"conflict": {
+			"en": "conflict"
+		},
+		"axiumcrisis": {
+			"en": "Axium Crisis"
+		},
+		"grievouslady": {
+			"en": "Grievous Lady"
+		},
+		"dreaminattraction": {
+			"en": "Dreamin' Attraction!!"
+		},
+		"redandblue": {
+			"en": "Red and Blue"
+		},
+		"onelastdrive": {
+			"en": "One Last Drive"
+		},
+		"surrender": {
+			"en": "Surrender"
+		},
+		"yozakurafubuki": {
+			"en": "Yosakura Fubuki",
+			"ja": "夜桜吹雪"
+		},
+		"cyanine": {
+			"en": "cyanine"
+		},
+		"dreamgoeson": {
+			"en": "Dream goes on"
+		},
+		"journey": {
+			"en": "Journey"
+		},
+		"specta": {
+			"en": "Specta"
+		},
+		"quon": {
+			"en": "Quon"
+		},
+		"syro": {
+			"en": "Syro"
+		},
+		"reinvent": {
+			"en": "Reinvent"
+		},
+		"silentrush": {
+			"en": "Silent Rush"
+		},
+		"singularity": {
+			"en": "Singularity"
+		},
+		"memoryforest": {
+			"en": "Memory Forest"
+		},
+		"strongholds": {
+			"en": "Strongholds"
+		},
+		"nexttoyou": {
+			"en": "next to you"
+		},
+		"metallicpunisher": {
+			"en": "Metallic Punisher"
+		},
+		"blaster": {
+			"en": "Blaster"
+		},
+		"guardina": {
+			"en": "γuarδina",
+			"kr": "guardina",
+			"zh-Hant": "guardina",
+			"zh-Hans": "guardina"
+		},
+		"carminescythe": {
+			"en": "carmine:scythe"
+		},
+		"bethere": {
+			"en": "Be There"
+		},
+		"cyberneciacatharsis": {
+			"en": "Cybernecia Catharsis"
+		},
+		"callmyname": {
+			"en": "Call My Name feat. Yukacco"
+		},
+		"inkarusi": {
+			"en": "inkar-usi"
+		},
+		"mazenine": {
+			"en": "Maze No.9",
+			"ja": "九番目の迷路"
+		},
+		"themessage": {
+			"en": "The Message"
+		},
+		"sulfur": {
+			"en": "Sulfur"
+		},
+		"halcyon": {
+			"en": "Halcyon"
+		},
+		"etherstrike": {
+			"en": "Ether Strike"
+		},
+		"fractureray": {
+			"en": "Fracture Ray"
+		},
+		"suomi": {
+			"en": "Suomi"
+		},
+		"bookmaker": {
+			"en": "Bookmaker (2D Version)"
+		},
+		"darakunosono": {
+			"ja": "堕楽の園",
+			"en": "Illegal Paradise"
+		},
+		"dropdead": {
+			"en": "dropdead"
+		},
+		"fallensquare": {
+			"en": "Fallensquare"
+		},
+		"nhelv": {
+			"en": "Nhelv"
+		},
+		"espebranch": {
+			"ja": "白道、多希望羊と信じありく。",
+			"en": "LunarOrbit -believe in the Espebranch road-"
+		},
+		"purgatorium": {
+			"en": "Purgatorium"
+		},
+		"hikari": {
+			"ja": "光",
+			"en": "Hikari"
+		},
+		"stager": {
+			"en": "STAGER (ALL STAGE CLEAR)"
+		},
+		"hallofmirrors": {
+			"en": "Hall of Mirrors"
+		},
+		"linearaccelerator": {
+			"en": "Linear Accelerator"
+		},
+		"tiferet": {
+			"en": "Tiferet"
+		},
+		"alexandrite": {
+			"en": "Alexandrite"
+		},
+		"rugie": {
+			"en": "Rugie"
+		},
+		"astraltale": {
+			"en": "Astral tale"
+		},
+		"phantasia": {
+			"en": "Phantasia"
+		},
+		"empireofwinter": {
+			"en": "Empire of Winter"
+		},
+		"merlin": {
+			"en": "MERLIN"
+		},
+		"dxfullmetal": {
+			"ja": "DX超性能フルメタル少女",
+			"en": "DX Choseinou Full Metal Shojo"
+		},
+		"omakeno": {
+			"en": "OMAKENO Stroke"
+		},
+		"scarletlance": {
+			"en": "Scarlet Lance"
+		},
+		"ouroboros": {
+			"en": "ouroboros -twin stroke of the end-"
+		},
+		"libertas": {
+			"en": "Libertas"
+		},
+		"solitarydream": {
+			"en": "Solitary Dream",
+			"ja": "虚空の夢"
+		},
+		"antithese": {
+			"en": "Antithese"
+		},
+		"corruption": {
+			"en": "Corruption"
+		},
+		"blackterritory": {
+			"en": "Black Territory"
+		},
+		"viciousheroism": {
+			"en": "Vicious Heroism"
+		},
+		"cyaegha": {
+			"en": "Cyaegha"
+		},
+		"revixy": {
+			"en": "ReviXy"
+		},
+		"grimheart": {
+			"en": "Grimheart"
+		},
+		"vector": {
+			"en": "VECTOЯ"
+		},
+		"supernova": {
+			"en": "SUPERNOVA"
+		},
+		"dottodot": {
+			"en": "Dot to Dot feat. shully"
+		},
+		"garakuta": {
+			"en": "Garakuta Doll Play"
+		},
+		"ikazuchi": {
+			"en": "Ikazuchi",
+			"ja": "怒槌"
+		},
+		"worldvanquisher": {
+			"en": "World Vanquisher"
+		},
+		"dreadnought": {
+			"en": "Dreadnought"
+		},
+		"particlearts": {
+			"en": "Particle Arts"
+		},
+		"vindication": {
+			"en": "Vindication"
+		},
+		"heavensdoor": {
+			"en": "Heavensdoor"
+		},
+		"ringedgenesis": {
+			"en": "Ringed Genesis"
+		},
+		"chelsea": {
+			"en": "Chelsea"
+		},
+		"aiueoon": {
+			"en": "AI[UE]OON"
+		},
+		"melodyoflove": {
+			"en": "A Wandering Melody of Love",
+			"ja": "迷える音色は恋の唄"
+		},
+		"tiemedowngently": {
+			"en": "Tie me down gently"
+		},
+		"valhallazero": {
+			"en": "Valhalla:0"
+		},
+		"mirzam": {
+			"en": "Mirzam"
+		},
+		"diode": {
+			"en": "Diode"
+		},
+		"freefall": {
+			"en": "FREEF4LL"
+		},
+		"gloryroad": {
+			"en": "GLORY：ROAD"
+		},
+		"monochromeprincess": {
+			"en": "Monochrome Princess"
+		},
+		"heavenlycaress": {
+			"en": "Heavenly caress"
+		},
+		"senkyou": {
+			"en": "Senkyou"
+		},
+		"filament": {
+			"en": "Filament"
+		},
+		"avantraze": {
+			"en": "Avant Raze"
+		},
+		"battlenoone": {
+			"en": "BATTLE NO.1"
+		},
+		"laqryma": {
+			"en": "La'qryma of the Wasteland"
+		},
+		"einherjar": {
+			"en": "Einherjar Joker"
+		},
+		"izana": {
+			"en": "IZANA"
+		},
+		"saikyostronger": {
+			"en": "SAIKYO STRONGER",
+			"ja": "最強STRONGER"
+		},
+		"worldexecuteme": {
+			"en": "world.execute(me);"
+		},
+		"blrink": {
+			"en": "BLRINK"
+		},
+		"oblivia": {
+			"en": "Oblivia"
+		},
+		"amygdata": {
+			"en": "amygdata"
+		},
+		"corpssansorganes": {
+			"en": "corps-sans-organes"
+		}
+	}
+}
