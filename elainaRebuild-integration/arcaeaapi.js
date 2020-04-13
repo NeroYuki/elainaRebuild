@@ -143,10 +143,11 @@ module.exports.getUserInfo = (option) => {
             log.errConsole("Insufficient option")
             reject()
         }
-        let req = ""; let min_ptt = 3; let max_ptt = 4
+        let req = ""; let min_ptt = 0; let max_ptt = 0
         if (option.min_ptt !== undefined && !isNaN(option.min_ptt) && option.min_ptt > 0) min_ptt = option.min_ptt
         if (option.max_ptt !== undefined && !isNaN(option.max_ptt) && option.max_ptt <= 12) min_ptt = option.min_ptt
-        req = option.uid + " " + min_ptt + " " + max_ptt
+        if (min_ptt != 0 && max_ptt != 0) req = option.uid + " " + min_ptt + " " + max_ptt
+        else req = option.uid
 
         log.toConsole(req)
 

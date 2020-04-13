@@ -35,8 +35,9 @@ fs.readdir('./elainaRebuild-cmd/', (err, files) => {
     if (err) return console.error(err);
     files.forEach(file => {
         let commandHandler = require(`./elainaRebuild-cmd/${file}`);
-        if (commandHandler.isEnable = false) {
+        if (commandHandler.isEnable !== true) {
             log.toConsole(`(x) ${file} command is disable`)
+            return
         }
 
         client.commands.set(commandHandler.name, commandHandler)

@@ -8,10 +8,6 @@ module.exports = {
         //console.log(args)
         const command = client.commands.get(cmd)
         if (command) {
-            if (!command.isEnable) {
-                message.channel.send("This command is disabled here")
-                return;
-            } 
             command.run(client, message, args)
         }
     }
