@@ -9,12 +9,22 @@ const log = require('../elainaRebuild-utils/log.js')
 clear_list = ['Track Lost', 'Normal Clear', 'Full Recall', 'Pure Memory', 'Easy Clear', 'Hard Clear']
 diff_list = ['PST', 'PRS', 'FTR']
 //TODO: 34 character name goes here (in en)
-character_list = []
+character_list = ['Hikari', 'Tairitsu', 'Kou', 'Sapphire', 'Lethe', 'Tairitsu (Axium)', 'Tairitsu (Grievous Lady)', 'Stella', 'Hikari & Fisica', 'Ilith', 'Eto', 'Luna', 'Shirabe', 'Hikari (Zero)', 'Hikari (Fracture)', 'Hikari (Summer)', 'Tairitus (Summer)', 'Tairitsu & Trin', 'Ayu', 'Eto & Luna', 'Hikari & Seine', 'Yume', 'Saya', 'Tairitsu (Grievous Lady) & Chuni Penguin', 'Nono Shibusawa', 'Haruna Mishima', 'Regulus (MDA-21)', 'Pandora Nemesis (MDA-XXX)', 'Chuni Penguin', 'Kanae','Hikari (Fantasia)', 'Tairitsu (Sonata)', 'Sia', 'DORO*C']
+
+song_data = {}
 
 function proberConnection(req, max_response) {
     return new Promise((resolve, reject) => {
         //create a socket
-        const socket = new WebSocket('wss://arc.estertion.win:616');
+        var socket;
+        try {
+            socket = new WebSocket('wss://arc.estertion.win:616')
+        }
+        catch (err) {
+            log.errConsole("Failed to establish connection")
+            log.errConsole(err)
+            reject()
+        }
         let resultObjects = []
         
         //on open, send the request
@@ -31,6 +41,7 @@ function proberConnection(req, max_response) {
                 let obj = await dataProcess(data)
                 //log.toConsole(JSON.stringify(obj), "", "  ")
                 if (obj.cmd !== "songtitle") resultObjects.push(obj)
+                else song_data = obj.data
             }
             //if server say bye, we say bye too
             else if (data === "bye") {
@@ -154,7 +165,17 @@ module.exports.getUserInfo = (option) => {
         }
 
         if (resultObjects[0].cmd == "userinfo") {
-            //TODO: beautify the output (replace field's value with coresponding string (clear_type, character, difficulty , song (in en)))
+            //beautify the output (replace field's value with coresponding string (clear_type, character, difficulty , song (in en)), what the f i have just done
+            resultObjects[0].data.recent_score[0].difficulty = diff_list[resultObjects[0].data.recent_score[0].difficulty]
+            resultObjects[0].data.recent_score[0].time_played = new Date(resultObjects[0].data.recent_score[0].time_played)
+            resultObjects[0].data.recent_score[0].clear_type = clear_list[resultObjects[0].data.recent_score[0].clear_type]
+            resultObjects[0].data.recent_score[0].best_clear_type = clear_list[resultObjects[0].data.recent_score[0].best_clear_type]
+            resultObjects[0].data.character_name = character_list[resultObjects[0].data.character]
+            resultObjects[0].data.join_date = new Date(resultObjects[0].data.join_date)
+            resultObjects[0].data.recent_score[0].song_name = song_data[resultObjects[0].data.recent_score[0].song_id]
+            resultObjects[0].data.rating = resultObjects[0].data.rating / 100
+
+            //resolve data
             resolve(resultObjects[0].data)
         }
         else {
