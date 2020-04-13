@@ -8,3 +8,8 @@ Creating a self-host bot that can do some cool trick upon its sleeve (game integ
 - Azur Lane - use azur lane's login api (check server status for en, jp and cn-android server) <br>
 - Malody - use web scrapper (get user info, get chart info) <br>
 - Arcaea - use estertion score prober (get user info) <br>
+### Requirement
+As this thing is supposed to be for (sort of) public use, I should also list some requirement <br>
+- Node.js v12 <br>
+- All dependencies listed in `package.json` (just hit `npm install` lol) <br>
+- For api usage (osu!droid and osu!) you need their own api key store in `elainaRebuild-config/.env` as `OSUDROID_API_KEY` and `OSU_API_KEY` (and obviously `DISCORD_TOKEN` if you want your bot to run in the first place)
