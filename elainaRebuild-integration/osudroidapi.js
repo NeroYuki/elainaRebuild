@@ -45,7 +45,9 @@ async function droidApiCall(param) {
                 reject()
             }
             try {
-                data = body.split('<br>')
+                //if api return an odr file, dont split it
+                if (!param.toString().includes('.odr')) data = body.split('<br>')
+                else { data = body }
                 resolve(data)
             }
             catch (err) {
@@ -153,6 +155,30 @@ module.exports.getUserInfo = (option) => {
             //return userInfo object
             resolve(resultObject)
         }
+    }).catch()
+}
+
+module.exports.getReplayFile = (option) => {
+    return new Promise(async (resolve, reject) => {
+        if (option === undefined) {
+            log.toConsole("No option is provided")
+            reject()
+        }
+        if (option.sid === undefined) {
+            log.errConsole("Insufficient option")
+            reject()
+        }
+
+        let param = new apiParamBuilder("upload")
+        param.addCall(option.sid + ".odr")
+
+        let replayResult = await droidApiCall(param)
+        if (replayResult === undefined) {
+            log.errConsole("Failed to retrieve replay")
+            reject()
+        } 
+
+        resolve(replayResult)
     }).catch()
 }
 

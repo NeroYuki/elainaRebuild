@@ -1,7 +1,7 @@
 {
   "name": "elainarebuild",
-  "version": "0.0.1",
-  "description": "none yet",
+  "version": "0.0.2",
+  "description": "a Discord Bot",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,9 @@
     "discord.js": "^12.1.1",
     "dotenv": "^8.2.0",
     "he": "^1.2.0",
+    "java-deserialization": "^0.1.0",
     "request": "^2.88.2",
+    "unzipper": "^0.10.10",
     "ws": "^7.2.3"
   }
 }
