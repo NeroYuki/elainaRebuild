@@ -13,3 +13,4 @@ As this thing is supposed to be for (sort of) public use, I should also list som
 - Node.js v12 <br>
 - All dependencies listed in `package.json` (just hit `npm install` lol) <br>
 - For api usage (osu!droid and osu!) you need their own api key store in `elainaRebuild-config/.env` as `OSUDROID_API_KEY` and `OSU_API_KEY` (and obviously `DISCORD_TOKEN` if you want your bot to run in the first place)
+- The bot use emote to visualize some stuff (namely Malody mode), to get it to work correctly, add the correct icon as emote in the server your bot are in (any server will do, name them according to `elainaRebuild-config/config.json`)
