@@ -8,6 +8,7 @@
     },
     "private_mode": true,
     "resource": {
+        "_comment" : "This is the emote name list for Malody mode, put your emote with the name corresponding to these name below",
         "malody_mode_emote" : [
             "mode0", "mode1", "mode2", "mode3", "mode4", "mode5", "mode6", "mode7"
         ]
