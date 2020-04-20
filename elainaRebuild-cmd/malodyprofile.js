@@ -17,7 +17,6 @@ module.exports.run = async (client, message, args) => {
         return;
     })
 
-    //console.log(client.emojis)
 
     const embed = new Discord.MessageEmbed()
         .setColor("#00dd22")
@@ -28,7 +27,6 @@ module.exports.run = async (client, message, args) => {
     
     res.mode_info.forEach((mode) => {
         let mode_emote = client.emojis.cache.find(emote => emote.name === modeEmote(mode.mode_id));
-        //log.toConsole(mode_emote)
         embed.addField(`${mode_emote}  ${mode.mode_name} / # ${mode.rank}`, 
             mode.exp + "exp / " + mode.play_count + " plays / " + mode.max_combo + "x / " + mode.avg_accuracy + "%")
     })

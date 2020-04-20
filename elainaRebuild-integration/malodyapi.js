@@ -15,6 +15,11 @@ function malodyModeRead(inp) {
 	return mode;
 }
 
+function malodyModeNametoID(inp) {
+    const available_mode = ["Key", "Step", "DJ", "Catch", "Pad", "Taiko", "Ring", "Slide"]
+    return available_mode.lastIndexOf(inp);
+}
+
 function malodyGameModRead (inp) {
     let gmod = [];
     const available_mod = ["Luck", "Flip", "Const", "Dash", "Rush", "Slow", "Hide", "Origin", "Death"]
@@ -202,7 +207,7 @@ module.exports.getUserInfo = (option) => {
                     max_combo: 0
                 }
                 mode_ranking.mode_name = malodyModeRead(lines[x - 2])
-                mode_ranking.mode_id = parseInt(lines[x - 2].match(/[0-9]+/)[0])
+                mode_ranking.mode_id = malodyModeNametoID(mode_ranking.mode_name)
                 mode_ranking.rank = parseInt(lines[x].replace("<p class=\"rank\">\#", "").replace("<\/p>", "").trim())
                 mode_ranking.exp = parseInt(lines[x + 2].replace("<span>Exp.", "").replace("<\/span>", "").trim())
                 mode_ranking.play_count = parseInt(lines[x + 3].replace("<span>Playcount:", "").replace("<\/span>", "").trim())
@@ -214,7 +219,8 @@ module.exports.getUserInfo = (option) => {
             //get those damn recent plays
             if (lines[x].includes("<p class=\"textfix title\"><img src=\"/static/img/mode")) {
                 let recent_play_entry = {
-                    mode: "",
+                    mode_name: "",
+                    mode_id: -1,
                     chart_string: "",
                     chart_link: "",
                     cover_link: "",
@@ -226,7 +232,8 @@ module.exports.getUserInfo = (option) => {
                     time: ""
                 }
                 let components = lines[x].split(">")
-                recent_play_entry.mode = malodyModeRead(components[1].replace(" /", ">"))
+                recent_play_entry.mode_name = malodyModeRead(components[1].replace(" /", ">"))
+                recent_play_entry.mode_id = malodyModeNametoID(recent_play_entry.mode_name)
                 recent_play_entry.chart_link = WEBSITE_ENDPOINT + components[2].replace("<a href=", "").replace(/\"/g, "")
                 recent_play_entry.chart_string = he.decode(components[3].replace("</a", ""))
                 if (lines[x + 1].includes("Score: ")) {
