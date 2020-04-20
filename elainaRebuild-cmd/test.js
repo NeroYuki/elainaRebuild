@@ -8,10 +8,10 @@ const arcaeaapi = require('../elainaRebuild-integration/arcaeaapi.js')
 module.exports.run = (client, message, args) => {
     // command only for integration testing
     // osuIntegrationTest(client, message, args)
-    // malodyIntegrationTest(client, message, args)
+     malodyIntegrationTest(client, message, args)
     // osudroidIntegrationTest(client, message, args)
     // azurlaneIntegrationTest(client, message, args)
-    arcaeaIntegrationTest(client, message, args)
+    // arcaeaIntegrationTest(client, message, args)
 }
 
 async function osuIntegrationTest(client, message, args) {
@@ -42,12 +42,12 @@ async function malodyIntegrationTest(client, message, args) {
 
     if (!args[0]) { message.channel.send("Hey at least give me the chart :/"); return; }
 	var a = args[0].split("/");
-    cid = a[a.length-1]
+    uid = a[a.length-1]
 
-    // let userResult = await malodyapi.getUserInfo({uid: uid})
-    // log.toConsole(JSON.stringify(userResult), "", "  ")
-    let chartResult = await malodyapi.getChartInfo({chartid: cid})
-    log.toConsole(JSON.stringify(chartResult, "", "  "))
+    let userResult = await malodyapi.getUserInfo({uid: uid})
+    log.toConsole(JSON.stringify(userResult), "", "  ")
+    // let chartResult = await malodyapi.getChartInfo({chartid: cid})
+    // log.toConsole(JSON.stringify(chartResult, "", "  "))
 
     message.channel.send("test complete")
 }

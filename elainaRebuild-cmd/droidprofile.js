@@ -6,8 +6,11 @@ module.exports.run = async (client, message, args) => {
         message.channel.send("I need your username")
         return
     }
-    var username = args[0]
-    var res = await osudroidapi.getUserInfo({username: username})
+    let username = args[0]
+    let res = await osudroidapi.getUserInfo({username: username}).catch(() => {
+        message.channel.send("Can't find said user");
+        return;
+    })
     const embed = new Discord.MessageEmbed()
         .setColor("#00dd22")
         .setDescription("**Username: **" + res.username + "  /  **Rank**: " + res.scoreRank + " / " + res.location)

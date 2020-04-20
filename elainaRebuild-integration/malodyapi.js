@@ -139,9 +139,9 @@ module.exports.getUserInfo = (option) => {
             uid: parseInt(final_uid),
             avatar_link: RESOURCE_ENDPOINT + "/avatar/" + final_uid, 
             time: { 
-                registration_date: "",  
-                last_login: "",         
-                play_time: ""           
+                registration_date: undefined,  
+                last_login: undefined,         
+                play_time: undefined           
             },
             user_info: {
                 age: "",
@@ -168,9 +168,9 @@ module.exports.getUserInfo = (option) => {
                 continue
             }
             if (lines[x].includes("<p class=\"time\">")) {
-                userInfoResult.time.registration_date = lines[x + 1].split("&nbsp;").pop().replace("<\/span>", "").trim()
-                userInfoResult.time.last_login = lines[x + 2].split("&nbsp;").pop().replace("<\/span>", "").trim()
-                userInfoResult.time.play_time = lines[x + 3].split("Played: ").pop().replace("<\/span>", "").trim()
+                userInfoResult.time.registration_date = new Date(lines[x + 1].split("&nbsp;").pop().replace("<\/span>", "").trim())
+                userInfoResult.time.last_login = new Date(lines[x + 2].split("&nbsp;").pop().replace("<\/span>", "").trim())
+                userInfoResult.time.play_time = new Date(lines[x + 3].split("Played: ").pop().replace("<\/span>", "").trim())
                 continue
             }
             if (lines[x].includes("<p><span>Gender:")) {
@@ -193,14 +193,16 @@ module.exports.getUserInfo = (option) => {
             //get overall mode info (if player have yet to play one mode, it will not visible in the site, therefore no entry for said mode here)
             if (lines[x].includes("<p class=\"rank\">\#")) {
                 let mode_ranking = {
-                    mode: "",
+                    mode_id: -1,
+                    mode_name: "",
                     rank: 0,
                     exp: 0,
                     play_count: 0,
                     avg_accuracy: 0,
                     max_combo: 0
                 }
-                mode_ranking.mode = malodyModeRead(lines[x - 2])
+                mode_ranking.mode_name = malodyModeRead(lines[x - 2])
+                mode_ranking.mode_id = parseInt(lines[x - 2].match(/[0-9]+/)[0])
                 mode_ranking.rank = parseInt(lines[x].replace("<p class=\"rank\">\#", "").replace("<\/p>", "").trim())
                 mode_ranking.exp = parseInt(lines[x + 2].replace("<span>Exp.", "").replace("<\/span>", "").trim())
                 mode_ranking.play_count = parseInt(lines[x + 3].replace("<span>Playcount:", "").replace("<\/span>", "").trim())
