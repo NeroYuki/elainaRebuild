@@ -5,6 +5,7 @@ const client = new Discord.Client();
 const fs = require('fs'); 
 const log = require('./elainaRebuild-utils/log.js')
 const mainConfig = require('./elainaRebuild-config/config.json');
+const DatabaseConnection = require('./elainaRebuild-data/databaseconnection.js')
 require('dotenv').config({ path: 'elainaRebuild-config/.env' })
 
 client.commands = new Discord.Collection();
@@ -44,4 +45,8 @@ fs.readdir('./elainaRebuild-cmd/', (err, files) => {
         log.toConsole(`${file} command loaded`)
     })
 })
+
+//connection to database
+
+DatabaseConnection.initConnection();
 
