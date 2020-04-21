@@ -13,10 +13,9 @@ module.exports.run = async (client, message, args) => {
     }
     let username = args[0]
     let res = await malodyapi.getUserInfo({username: username}).catch(() => {
-        message.channel.send("Can't find said user");
+        message.channel.send("Can't player with given username");
         return;
     })
-
 
     const embed = new Discord.MessageEmbed()
         .setColor("#00dd22")

@@ -10,7 +10,10 @@ module.exports.run = async (client, message, args) => {
     else {
         option.username = args[0]
         let lookupResult = await arcaeaapi.lookupUser(option)
-        if (lookupResult.length == 0) log.errConsole("Can't find said player, perhaps try to use your user id")
+        if (lookupResult.length == 0) {
+            message.channel.send("Can't player with given username, perhaps try to use your user id")
+            return
+        }
         else option.uid = lookupResult[0].code
     }
 

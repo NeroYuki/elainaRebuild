@@ -2,7 +2,10 @@ const log = require('../elainaRebuild-utils/log.js')
 const apiParamBuilder = require('../elainaRebuild-utils/apiParamBuilder.js')
 const request = require('request')
 
-const GATEWAY_ENDPOINT = ["http://blhxusgate.yo-star.com", "http://blhxjploginapi.azurlane.jp", "118.178.152.242"]
+const GATEWAY_ENDPOINT = [
+    "http://blhxusgate.yo-star.com",                    //EN server login
+    "http://blhxjploginapi.azurlane.jp",                //JP server login
+    "http://118.178.152.242"]                           //CN (android) server login
 
 async function azurlaneApiCall(param, index) {
     return new Promise((resolve, reject) => {

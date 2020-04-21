@@ -295,13 +295,14 @@ module.exports.getChartInfo = (option) => {
             artist: "",
             track_name: "",
             mode: "",
+            mode_id: "",
             chart_name: "",
             cover_link: "",
             creator: {},
             stabled_by: {},
             length: 0,
             bpm: 0,
-            last_update: "",
+            last_update: undefined,
             tags: [],
             play_data: {
                 play_count: 0,
@@ -313,8 +314,8 @@ module.exports.getChartInfo = (option) => {
         let lines = data.split('\n')
         //more scrapping mayhem
         for (var x = 0; x < lines.length; x++) {
-            if (lines[x].includes("<em class=\"t2\">")) {
-                chartInfo.status = lines[x].replace("<em class=\"t2\">", "").replace("</em>", "")
+            if (lines[x].includes("<em class=\"t")) {
+                chartInfo.status = lines[x].replace(/\<em class\=\"t[0-9]+\"\>/, "").replace("</em>", "")
                 let components = lines[x + 1].split("<\/span> - ")
                 chartInfo.artist = components[0].replace("<span class=\"textfix artist\">", "")
                 chartInfo.track_name = components[1].replace("<\/h2>", "")
@@ -324,6 +325,7 @@ module.exports.getChartInfo = (option) => {
             }
             if (lines[x].includes("<h2 class=\"mode\">")) {
                 chartInfo.mode = malodyModeRead(lines[x + 1])
+                chartInfo.mode_id = malodyModeNametoID(chartInfo.mode)
                 chartInfo.chart_name = lines[x + 2].replace("<span>", "").replace("<\/span>", "")
             }
             if (lines[x].includes("Created by: <\/span>")) {
@@ -343,9 +345,9 @@ module.exports.getChartInfo = (option) => {
                 chartInfo.stabled_by = userResult
             }
             if (lines[x].includes("<h2 class=\"sub\">")) {
-                chartInfo.bpm = lines[x + 2].replace(/[^1234567890\-: ]/g, "").replace(":", "")
-                chartInfo.length = lines[x + 3].replace(/[^1234567890\-: ]/g, "").replace(":", "")
-                chartInfo.last_update = lines[x + 4].replace(/[^1234567890\-: ]/g, "").replace(":", "").trim()
+                chartInfo.length = lines[x + 2].replace(/[^1234567890\-: ]/g, "").replace(":", "")
+                chartInfo.bpm = lines[x + 3].replace(/[^1234567890\-:. ]/g, "").replace(":", "")
+                chartInfo.last_update = new Date(lines[x + 4].replace(/[^1234567890\-: ]/g, "").replace(":", "").trim())
             }
             if (lines[x].includes("<h2 class=\"tags\">")) {
                 let section = ""
