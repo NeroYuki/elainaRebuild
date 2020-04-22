@@ -6,6 +6,8 @@ const he = require('he')
 const WEBSITE_ENDPOINT = 'https://m.mugzone.net'
 const RESOURCE_ENDPOINT = 'http://cni.malody.cn'
 
+const IS_EVALUATING_SPEED = require('../elainaRebuild-config/config.json').speed_evaluate
+
 function malodyModeRead(inp) {
     let mode = "unknown";
     const available_mode = ["Key", "Step", "DJ", "Catch", "Pad", "Taiko", "Ring", "Slide"]
@@ -119,6 +121,7 @@ module.exports.searchUser = (option) => {
 
 module.exports.getUserInfo = (option) => {
     return new Promise(async (resolve, reject) => {
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.start()
         if (option === undefined) {
             log.toConsole("No option is provided")
             reject()
@@ -272,12 +275,14 @@ module.exports.getUserInfo = (option) => {
             }
         }
         //log.toConsole(JSON.stringify(userInfoResult, "", " "))
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.end()
         resolve(userInfoResult)
     }).catch()
 }
 
 module.exports.getChartInfo = (option) => {
     return new Promise(async (resolve, reject) => {
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.start()
         if (option === undefined) {
             log.toConsole("No option is provided")
             reject()
@@ -368,6 +373,7 @@ module.exports.getChartInfo = (option) => {
                     chartInfo.play_data.dislike = lines[x + 1].split("<span class=\"l\">").pop().replace("<\/span>", "")
             }
         }
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.end()
         resolve(chartInfo)
 
     }).catch()

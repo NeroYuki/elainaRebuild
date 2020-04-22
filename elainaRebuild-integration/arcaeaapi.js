@@ -2,6 +2,8 @@ const WebSocket = require('ws');
 const zlib = require('zlib')
 const log = require('../elainaRebuild-utils/log.js')
 
+const IS_EVALUATING_SPEED = require('../elainaRebuild-config/config.json').speed_evaluate
+
 //this is not an api but more so a wrapper for estertion's score prober websocket, use with caution
 //can't use apiParamBuilder because its a web socket server, not api, duh
 //WARNING: this thing will be pretty slow, to ensure we won't murder the prober server
@@ -135,6 +137,7 @@ module.exports.lookupUser = (option) => {
 
 module.exports.getUserInfo = (option) => {
     return new Promise(async (resolve, reject) => {
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.start()
         if (option === undefined) {
             log.toConsole("No option is provided")
             reject()
@@ -178,6 +181,7 @@ module.exports.getUserInfo = (option) => {
 
             //resolve data
             resolve(resultObjects[0].data)
+            if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.end()
         }
         else {
             log.errConsole("malformed response, will throw")

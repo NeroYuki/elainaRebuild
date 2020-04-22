@@ -2,6 +2,8 @@ const log = require('../elainaRebuild-utils/log.js')
 const apiParamBuilder = require('../elainaRebuild-utils/apiParamBuilder.js')
 const request = require('request')
 
+const IS_EVALUATING_SPEED = require('../elainaRebuild-config/config.json').speed_evaluate
+
 const GATEWAY_ENDPOINT = [
     "http://blhxusgate.yo-star.com",                    //EN server login
     "http://blhxjploginapi.azurlane.jp",                //JP server login
@@ -33,6 +35,7 @@ async function azurlaneApiCall(param, index) {
 
 module.exports.serverStatus = (option) => {
     return new Promise(async (resolve, reject) => {
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.start()
         let region = 'en'
         let region_index = 0;
         if (option.region !== undefined) region = option.region
@@ -69,6 +72,7 @@ module.exports.serverStatus = (option) => {
             statusResult.push(serverStatus_entry)
         })
 
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.end()
         resolve(statusResult)
     }).catch()
 }

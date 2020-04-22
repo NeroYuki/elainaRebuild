@@ -3,6 +3,8 @@ const apiParamBuilder = require('../elainaRebuild-utils/apiParamBuilder.js')
 const request = require('request')
 require('dotenv').config({ path: 'elainaRebuild-config/.env' })
 
+const IS_EVALUATING_SPEED = require('../elainaRebuild-config/config.json').speed_evaluate
+
 const API_ENDPOINT = 'http://ops.dgsrz.com/api'
 const WEBSITE_ENDPOINT = 'http://ops.dgsrz.com'
 
@@ -185,6 +187,7 @@ async function droidProfileCall(param) {
 
 module.exports.getUserInfo = (option) => {
     return new Promise(async (resolve, reject) => {
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.start()
         if (option === undefined) {
             log.toConsole("No option is provided")
             reject()
@@ -226,7 +229,7 @@ module.exports.getUserInfo = (option) => {
                 username: playerInfo[2],
                 score: parseInt(playerInfo[3]),
                 playCount: parseInt(playerInfo[4]),
-                accuracy: parseInt(playerInfo[5]) / 1000,
+                accuracy: parseFloat(playerInfo[5]) * 100,
                 scoreRank: scoreInfo.rank,
                 recentPlays: scoreInfo.recent,
                 avatarLink: "",
@@ -247,6 +250,7 @@ module.exports.getUserInfo = (option) => {
             }
 
             //return userInfo object
+            if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.end()
             resolve(resultObject)
         }
     }).catch()
@@ -254,6 +258,7 @@ module.exports.getUserInfo = (option) => {
 
 module.exports.getReplayFile = (option) => {
     return new Promise(async (resolve, reject) => {
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.start()
         if (option === undefined) {
             log.toConsole("No option is provided")
             reject()
@@ -272,12 +277,14 @@ module.exports.getReplayFile = (option) => {
             reject()
         } 
 
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.end()
         resolve(replayResult)
     }).catch()
 }
 
 module.exports.getScoreInfo = (option) => {
     return new Promise(async (resolve, reject) => {
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.start()
         if (option === undefined) {
             log.toConsole("No option is provided")
             reject()
@@ -329,6 +336,7 @@ module.exports.getScoreInfo = (option) => {
             scoreInfoResult.push(scoreInfoEntry)
         })
 
+        if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.end()
         resolve(scoreInfoResult)
     }).catch()
 }

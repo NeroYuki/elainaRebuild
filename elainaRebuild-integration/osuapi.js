@@ -3,6 +3,8 @@ const apiParamBuilder = require('../elainaRebuild-utils/apiParamBuilder.js')
 const request = require('request')
 require('dotenv').config({ path: 'elainaRebuild-config/.env' })
 
+const IS_EVALUATING_SPEED = require('../elainaRebuild-config/config.json').speed_evaluate
+
 const API_ENDPOINT = 'https://osu.ppy.sh/api'
 const DOWNLOAD_ENDPOINT = 'https://osu.ppy.sh/osu'
 
