@@ -6,6 +6,7 @@ require('dotenv').config({ path: 'elainaRebuild-config/.env' })
 const API_ENDPOINT = 'http://ops.dgsrz.com/api'
 const WEBSITE_ENDPOINT = 'http://ops.dgsrz.com'
 
+//Helper enum and function
 var modbits = {
     nomod: 0,
     nf: 1<<0,
@@ -20,6 +21,22 @@ var modbits = {
     so: 1<<12,
 };
 
+function rankread(imgsrc) {
+	let rank= "";
+	switch(imgsrc) {
+		case '<img src="assets/images/ranking-S-small.png"/>': rank = "S"; break;
+		case '<img src="assets/images/ranking-A-small.png"/>': rank = "A"; break;
+		case '<img src="assets/images/ranking-B-small.png"/>': rank = "B"; break;
+		case '<img src="assets/images/ranking-C-small.png"/>': rank = "C"; break;
+		case '<img src="assets/images/ranking-D-small.png"/>': rank = "D"; break;
+		case '<img src="assets/images/ranking-SH-small.png"/>' :rank = "SH"; break;
+		case '<img src="assets/images/ranking-X-small.png"/>': rank = "X"; break;
+		case '<img src="assets/images/ranking-XH-small.png"/>': rank = "XH"; break;
+		default: rank = "unknown";
+	}
+	return rank;
+}
+
 function modchar2bit(mod) {
     var res = 0;
     if (mod.includes("e")) res += modbits.ez;
@@ -29,6 +46,19 @@ function modchar2bit(mod) {
 	if (mod.includes("c")) res += modbits.nc;
 	if (mod.includes("n")) res += modbits.nf;
 	if (mod.includes("t")) res += modbits.ht;
+	return res;
+}
+
+function modstring2char(mod) {
+    var res = "";
+    if (mod.includes("Easy")) res += "e";
+    if (mod.includes("HardRock")) res += "r";
+    if (mod.includes("Hidden")) res += "h";
+	if (mod.includes("DoubleTime")) res += "d";
+	if (mod.includes("NightCore")) res += "c";
+	if (mod.includes("NoFail")) res += "n";
+    if (mod.includes("HalfTime")) res += "t";
+    if (res == "") res = "-"
 	return res;
 }
 
@@ -62,8 +92,13 @@ async function droidProfileCall(param) {
     return new Promise((resolve, reject) => {
         let url = WEBSITE_ENDPOINT + param.toString();
         let profileObject = {
+            username: "",
             avatarLink: "",
-            location: ""
+            location: "",
+            score: 0,
+            scoreRank: 0,
+            playCount: 0,
+            recentPlays: [],
         }
         request(url, {}, (err, res, body) => {
             if (err) {
@@ -75,9 +110,14 @@ async function droidProfileCall(param) {
                 reject()
             }
             try {
+                //proceed to parse the shit out of the site
                 let lines = body.split('\n');
                 for (x = 0; x < lines.length; x++) {
                     if (lines[x].includes('h3 m-t-xs m-b-xs')) {
+                        lines[x] = lines[x].replace('<div class="h3 m-t-xs m-b-xs">',"");
+						lines[x] = lines[x].replace('<\/div>',"");
+						lines[x] = lines[x].trim();
+						profileObject.username = lines[x];
                         lines[x-3] = lines[x-3].replace('<img src="',"");
                         lines[x-3] = lines[x-3].replace('" class="img-circle">',"");
                         lines[x-3] = lines[x-3].trim();
@@ -86,7 +126,52 @@ async function droidProfileCall(param) {
                         lines[x+1] = lines[x+1].replace("<\/small>","");
                         lines[x+1] = lines[x+1].trim()
                         profileObject.location = lines[x+1]
-				    }
+                        lines[x+8] = lines[x+8].replace('<span class="m-b-xs h4 block">',"");
+						lines[x+8] = lines[x+8].replace('<\/span>',"");
+						lines[x+8] = lines[x+8].trim();
+						profileObject.scoreRank = (parseInt(lines[x + 8])-1).toString();
+                    }
+                    if (lines[x].includes('Technical Analysis')) {
+						lines[x+3] = lines[x+3].replace('<span class="pull-right">',"");
+						lines[x+3] = lines[x+3].replace('<\/span>',"");
+						lines[x+3] = lines[x+3].trim()
+						profileObject.score = parseInt(lines[x+3])
+						lines[x+13] = lines[x+13].replace('<span class="pull-right">',"");
+						lines[x+13] = lines[x+13].replace('<\/span>',"");
+						lines[x+13] = lines[x+13].trim()
+						profileObject.playCount = parseInt(lines[x+13])
+					}
+                    //fetching recent plays (up to 50)
+                    if (lines[x].includes('<small>') && lines[x - 1].includes('class="block"')) {
+                        var play = {
+                            filename: "", 
+                            score: 0,
+                            combo: 0, 
+                            mark: 0,
+                            mode: "",
+                            accuracy: 0, 
+                            miss: 0, 
+                            date: undefined,
+                            hash: ""
+                        }
+                        lines[x-1] = lines[x-1].replace("<strong class=\"block\">","");
+                        lines[x-1] = lines[x-1].replace("<\/strong>","");
+                        lines[x] = lines[x].replace("<\/small>","");
+                        lines[x] = lines[x].replace("<small>","");
+                        lines[x+1] = lines[x+1].replace('<span id="statics" class="hidden">{"miss":','');
+                        lines[x+1] = lines[x+1].replace('}</span>','')
+                        play.filename = lines[x-1].trim();
+                        var mshs = lines[x+1].trim().split(',');
+                        play.miss = parseInt(mshs[0]);
+                        play.hash = mshs[1].split(':')[1];
+                        //console.log(play.hash)
+                        let components = lines[x].split("/"); 
+                        play.date = new Date(components[0]); 
+                        play.mode = modstring2char(components[2]); 
+                        play.combo = parseInt(components[3].trim()); 
+                        play.accuracy = parseFloat(components[4].trim());
+                        profileObject.recentPlays.push(play)
+                    }
                 }
                 resolve(profileObject)
             }
@@ -111,7 +196,16 @@ module.exports.getUserInfo = (option) => {
         //TODO: add support for no-apikey operation
         if (process.env.OSUDROID_API_KEY === undefined) {
             log.errConsole("No api key is provided")
-            reject()
+            if (option.uid === undefined) {
+                log.errConsole("No uid is provided")
+                reject()
+            }
+            let profileParam = new apiParamBuilder("profile.php")
+            profileParam.addParam("uid", option.uid)
+            let profileObject = await droidProfileCall(profileParam)
+            profileObject.uid = parseInt(option.uid)
+            log.toConsole(profileObject)
+            resolve(profileObject)
         }
         else {
             let param = new apiParamBuilder("getuserinfo.php")
@@ -132,7 +226,7 @@ module.exports.getUserInfo = (option) => {
                 username: playerInfo[2],
                 score: parseInt(playerInfo[3]),
                 playCount: parseInt(playerInfo[4]),
-                accuracy: parseFloat(playerInfo[5]) * 100,
+                accuracy: parseInt(playerInfo[5]) / 1000,
                 scoreRank: scoreInfo.rank,
                 recentPlays: scoreInfo.recent,
                 avatarLink: "",

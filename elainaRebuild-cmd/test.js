@@ -8,8 +8,8 @@ const arcaeaapi = require('../elainaRebuild-integration/arcaeaapi.js')
 module.exports.run = (client, message, args) => {
     // command only for integration testing
     // osuIntegrationTest(client, message, args)
-     malodyIntegrationTest(client, message, args)
-    // osudroidIntegrationTest(client, message, args)
+    // malodyIntegrationTest(client, message, args)
+     osudroidIntegrationTest(client, message, args)
     // azurlaneIntegrationTest(client, message, args)
     // arcaeaIntegrationTest(client, message, args)
 }
@@ -27,14 +27,17 @@ async function osuIntegrationTest(client, message, args) {
 }
 
 async function osudroidIntegrationTest(client, message, args) {
-    if (!args[0]) { message.channel.send("Hey at least give me the map :/"); return; }
-    var a = args[0].split("/");
-    bid = a[a.length-1]
-    let mapInfo = await osuapi.getBeatmapInfo({beatmapid: bid})
-    let droidScoreInfo = await osudroidapi.getScoreInfo({hash: mapInfo.file_md5, order: 'score', page: 0})
-    droidScoreInfo.forEach((x) => {
-        log.toConsole(JSON.stringify(x))
-    })
+    if (!args[0]) { message.channel.send("Hey at least give me the uid :/"); return; }
+    let uid = args[0]
+    let userInfo = await osudroidapi.getUserInfo({uid: uid})
+    // var a = args[0].split("/");
+    // bid = a[a.length-1]
+    // let mapInfo = await osuapi.getBeatmapInfo({beatmapid: bid})
+    // let droidScoreInfo = await osudroidapi.getScoreInfo({hash: mapInfo.file_md5, order: 'score', page: 0})
+    // droidScoreInfo.forEach((x) => {
+    //     log.toConsole(JSON.stringify(x))
+    // })
+    log.toConsole(JSON.stringify(userInfo, "", "  "))
     message.channel.send("test complete")
 }
 
