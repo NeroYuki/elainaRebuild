@@ -4,6 +4,7 @@ const osudroidapi = require('../elainaRebuild-integration/osudroidapi.js')
 const malodyapi = require('../elainaRebuild-integration/malodyapi.js')
 const azurlaneapi = require('../elainaRebuild-integration/azurlaneapi.js')
 const arcaeaapi = require('../elainaRebuild-integration/arcaeaapi.js')
+const replayParser = require('../elainaRebuild-utils/replayParser.js')
 
 module.exports.run = (client, message, args) => {
     // command only for integration testing
@@ -28,8 +29,11 @@ async function osuIntegrationTest(client, message, args) {
 
 async function osudroidIntegrationTest(client, message, args) {
     if (!args[0]) { message.channel.send("Hey at least give me the uid :/"); return; }
-    let uid = args[0]
-    let userInfo = await osudroidapi.getUserInfo({uid: uid})
+    let sid = args[0]
+    let replay_file = await osudroidapi.getReplayFile({sid: sid})
+    let analyzed_data = await replayParser.parse(replay_file)
+    console.log(analyzed_data)
+    // let userInfo = await osudroidapi.getUserInfo({uid: uid})
     // var a = args[0].split("/");
     // bid = a[a.length-1]
     // let mapInfo = await osuapi.getBeatmapInfo({beatmapid: bid})
@@ -37,7 +41,7 @@ async function osudroidIntegrationTest(client, message, args) {
     // droidScoreInfo.forEach((x) => {
     //     log.toConsole(JSON.stringify(x))
     // })
-    log.toConsole(JSON.stringify(userInfo, "", "  "))
+    // log.toConsole(JSON.stringify(userInfo, "", "  "))
     message.channel.send("test complete")
 }
 

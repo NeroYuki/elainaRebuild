@@ -1,5 +1,6 @@
 const log = require('../elainaRebuild-utils/log.js')
 const apiParamBuilder = require('../elainaRebuild-utils/apiParamBuilder.js')
+const fs = require('fs')
 const request = require('request')
 require('dotenv').config({ path: 'elainaRebuild-config/.env' })
 
@@ -77,9 +78,7 @@ async function droidApiCall(param) {
                 reject()
             }
             try {
-                //if api return an odr file, dont split it
-                if (!param.toString().includes('.odr')) data = body.split('<br>')
-                else { data = body }
+                data = body.split('<br>')
                 resolve(data)
             }
             catch (err) {
@@ -87,6 +86,32 @@ async function droidApiCall(param) {
                 reject()
             }
         })
+    }).catch()
+}
+
+//only for retrieving .odr file
+async function droidReplayCall(param) {
+    
+    return new Promise((resolve, reject) => {
+        let url = API_ENDPOINT + param.toString();
+        let data_array = []
+        request(url)
+            .on('response', res => {
+                if (res.statusCode != 200) {
+                    log.errConsole("Non-200 status code")
+                    reject()
+                }
+            })
+            .on('data', chunk => data_array.push(Buffer.from(chunk)))
+            .on('complete', () => {
+                let result = Buffer.concat(data_array)
+                console.log(result)
+                resolve(result)
+            })
+            .on('error', e => {
+                log.errConsole(e)
+                reject()
+            })
     }).catch()
 }
 
@@ -271,13 +296,14 @@ module.exports.getReplayFile = (option) => {
         let param = new apiParamBuilder("upload")
         param.addCall(option.sid + ".odr")
 
-        let replayResult = await droidApiCall(param)
+        let replayResult = await droidReplayCall(param)
         if (replayResult === undefined) {
             log.errConsole("Failed to retrieve replay")
             reject()
         } 
 
         if (IS_EVALUATING_SPEED) log.TimertoConsole.prototype.end()
+        console.log(replayResult)
         resolve(replayResult)
     }).catch()
 }

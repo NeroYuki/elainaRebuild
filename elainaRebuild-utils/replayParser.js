@@ -37,7 +37,7 @@ function replay_decompress(data) {
                 } 
                 else {
                 //if its not, drain it to decrease memory usage (its not like it ever happen when reading these files anyway)
-                    entry.autodrain().on(e => handleError);
+                    entry.autodrain().on('error', e => {console.log(e);})
                 }
             })
             //should throw everytime due to unexpected EoF (Cant find central directory), but if data is resolved before reaching it we are ok
