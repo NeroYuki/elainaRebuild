@@ -105,7 +105,7 @@ async function droidReplayCall(param) {
             .on('data', chunk => data_array.push(Buffer.from(chunk)))
             .on('complete', () => {
                 let result = Buffer.concat(data_array)
-                console.log(result)
+                //console.log(result)
                 resolve(result)
             })
             .on('error', e => {

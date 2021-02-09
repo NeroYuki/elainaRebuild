@@ -6,7 +6,6 @@ module.exports = {
     execute(client, message) {
         if (!message.content.startsWith(mainConfig.prefix)) return;
         const [cmd, ...args] = message.content.trim().slice(mainConfig.prefix.length).split(/\s+/g);
-        //console.log(args)
         
         const command = client.commands.get(cmd)
         if (command) {

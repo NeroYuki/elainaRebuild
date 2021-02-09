@@ -74,13 +74,24 @@ function replay_parse(content) {
         is_full_combo: raw_object[4][44],
         player_name: raw_object[5],
         play_mod: raw_object[6].elements,
+        force_speed: -1,
+        force_ar: -1,
         //cursor movement data, max at 5 concurrent cursors, contain time, id enum, x and y
         cursor_movement: undefined,
         //hit object data, contain N result of hit objects, contain accuracy (offset), tickset (for slider?) and result enum
         hit_object_data: undefined,
     }
+    let start_pos = 7
+    if (result_object.replay_version > 3) {
+        let pair = raw_object[7].split('|')
+        for (let it = 0; it < pair.length; it++) {
+            if (pair[it].includes('x')) result_object.force_speed = parseFloat(pair[it])
+            if (pair[it].includes('AR')) result_object.force_ar = parseFloat(pair[it])
+        }
+        start_pos = 8
+    }
     var replay_data_buffer_array = []
-    for (var i = 7; i < raw_object.length; i++) {
+    for (var i = start_pos; i < raw_object.length; i++) {
         replay_data_buffer_array.push(raw_object[i])
     }
 
