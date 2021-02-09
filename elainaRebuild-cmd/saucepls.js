@@ -10,7 +10,7 @@ module.exports.run = (client, message, args) => {
             if (image_url != "") return;
             if (x.attachments.length == 0) return;
             x.attachments.forEach((ax) => {
-                if (ax.url.endsWith(".jpg") || ax.url.endsWith(".png") || ax.url.endsWith(".jpeg")) {
+                if (ax.url.endsWith(".jpg") || ax.url.endsWith(".png") || ax.url.endsWith(".jpeg") || ax.url.endsWith(".webp")) {
                     image_url = ax.url;
                 }
             })
