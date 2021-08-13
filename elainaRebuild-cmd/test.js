@@ -10,7 +10,7 @@ module.exports.run = (client, message, args) => {
     // command only for integration testing
     // osuIntegrationTest(client, message, args)
     // malodyIntegrationTest(client, message, args)
-     osudroidIntegrationTest(client, message, args)
+    // osudroidIntegrationTest(client, message, args)
     // azurlaneIntegrationTest(client, message, args)
     // arcaeaIntegrationTest(client, message, args)
 }
