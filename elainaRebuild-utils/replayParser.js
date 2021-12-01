@@ -85,11 +85,12 @@ function replay_parse(content) {
     if (result_object.replay_version > 3) {
         let pair = raw_object[7].split('|')
         for (let it = 0; it < pair.length; it++) {
-            if (pair[it].includes('x')) result_object.force_speed = parseFloat(pair[it])
-            if (pair[it].includes('AR')) result_object.force_ar = parseFloat(pair[it])
+            if (pair[it].includes('x')) result_object.force_speed = parseFloat(pair[it].replace('x', ''))
+            if (pair[it].includes('AR')) result_object.force_ar = parseFloat(pair[it].replace('AR', ''))
         }
         start_pos = 8
     }
+    //console.log(result_object)
     var replay_data_buffer_array = []
     for (var i = start_pos; i < raw_object.length; i++) {
         replay_data_buffer_array.push(raw_object[i])

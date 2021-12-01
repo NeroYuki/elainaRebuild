@@ -34,6 +34,7 @@ module.exports.run = async (client, message, args) => {
         //console.log()
         let url = message.attachments.first().attachment
         task.check(url, cat_res, (result) => {
+            //console.dir(result, {depth: null})
             let SGT = 0
             let isAccepted = true;
             let result_string = ""
@@ -46,7 +47,11 @@ module.exports.run = async (client, message, args) => {
                 result_string += `**${result[j].map_name}**
                 ${msTohms(Math.round(result[j].submit_time - result[0].start_time))} - ${msTohms(Math.round(result[j].play_time))}\n`
             }
-            let final_result_string = `**RTA - ${msTohms(result[result.length - 1].submit_time - result[0].start_time)} | SGT - ${msTohms(SGT)}**`
+            let RTA = result[result.length - 1].submit_time - result[0].start_time
+            let is_qualified_for_RTA = (RTA > SGT * 2)? false : true
+            
+
+            let final_result_string = `**RTA - ${(is_qualified_for_RTA) ? msTohms(RTA) : "N/A"} | SGT - ${msTohms(SGT)}**`
             if (!isAccepted) return
             const embed = new Discord.MessageEmbed()
                 .setColor("#00dd22")
@@ -56,7 +61,7 @@ module.exports.run = async (client, message, args) => {
                     value: result_string
                 })
                 .addFields({
-                    name: "Final Result",
+                    name: "Final Result " + ((is_qualified_for_RTA) ? "(Single Segment)" : "(Multi Segmented)"),
                     value: final_result_string
                 })
             message.channel.send(embed)

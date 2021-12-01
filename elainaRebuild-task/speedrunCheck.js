@@ -35,6 +35,7 @@ module.exports.check = async (entry_url, cat_info, cb) => {
     let zip_data = await replayEntriesFetch(entry_url)
     let res_code = 0;
     let run_results = []
+    let current_player = ""
 
     cat_info.maps.forEach((value) => {
         run_results.push({
@@ -66,15 +67,31 @@ module.exports.check = async (entry_url, cat_info, cb) => {
             let replay_data = await replayParser.parse(content)
             for (let i = 0; i < run_results.length; i++) {
                 
+                if (replay_data.player_name !== current_player) {
+                    if (current_player === "") current_player = replay_data.player_name
+                    else continue
+                }
                 if (replay_data.file_hash != run_results[i].hash) continue;
                 if (!isSrank(replay_data)) continue;
                 let play_time = run_results[i].length
+                let disqualified_to_mod = false
                 for (let j in replay_data.play_mod) {
                     let val = replay_data.play_mod[j].valueOf()
+                    //console.log(val)
                     if (val == "MOD_DOUBLETIME") play_time /= 1.5
                     if (val == "MOD_HALFTIME") play_time /= 0.75
+                    if (val == "MOD_EASY" || val == "MOD_RELAX" || val == "MOD_REALLYEASY" || val == "MOD_AUTOPILOT") { disqualified_to_mod = true }
                 }
+                //disqualify play if they use force_ar or disallowed mods
+                if (disqualified_to_mod) continue
+                if (replay_data.force_ar != -1) continue
+
                 if (replay_data.force_speed != -1) play_time /= replay_data.force_speed
+                // console.log({
+                //     submit_time: Number(replay_data.time),
+                //     play_time: play_time,
+                //     start_time: run_results[i].submit_time - run_results[i].play_time
+                // })
                 if ((run_results[i].submit_time == -1 && run_results[i].play_time == -1.0) || (run_results[i].play_time != -1.0 && run_results[i].play_time > play_time)) {
                     run_results[i].submit_time = Number(replay_data.time)
                     run_results[i].play_time = play_time
